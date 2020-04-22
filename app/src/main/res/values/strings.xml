@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">VMAP</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">UTEC Mapa Virtual</string>
+    <string name="nav_header_subtitle">Seleccion</string>
+    <string name="nav_header_desc">Navegacion</string>
+    <string name="action_settings">Opciones</string>
+
+    <string name="menu_home">Mapa</string>
+    <string name="login">Logear</string>
+    <string name="logout">Desloguear</string>
+    <string name="fundadores">Fundadores</string>
+    <string name="morazan">Francisco Morazan</string>
+    <string name="benito">Benito Juarez</string>
+    <string name="simon">Simon Bolivar</string>
+</resources>
