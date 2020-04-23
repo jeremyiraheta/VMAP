@@ -14,4 +14,12 @@
     <string name="morazan">Francisco Morazan</string>
     <string name="benito">Benito Juarez</string>
     <string name="simon">Simon Bolivar</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Registrarse</string>
+    <string name="invalid_username">No es un usuario valido</string>
+    <string name="invalid_password">Password debe ser de almenos 5 caracteres</string>
+    <string name="login_failed">"Fallo el logueo"</string>
 </resources>
