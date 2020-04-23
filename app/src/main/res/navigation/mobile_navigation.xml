@@ -16,4 +16,9 @@
         android:name="com.utec.vmap.ui.login.LoginFragment"
         android:label="@string/login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/nav_fundadores"
+        android:name="com.utec.vmap.ui.Fundadores.FundadoresFragment"
+        android:label="@string/fundadores"
+         />
 </navigation>
