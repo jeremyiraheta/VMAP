@@ -19,6 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="org.andresoviedo.app.model3D.view.ModelActivity"
+            android:label="Modelador"
+            android:parentActivityName="com.utec.vmap.MainActivity" >
+
+            <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
+        </activity>
     </application>
 
 </manifest>
