@@ -45,7 +45,7 @@ public abstract class LoaderTask extends AsyncTask<Void, Integer, List<Object3DD
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		this.dialog.setMessage("Loading...");
+		this.dialog.setMessage("Cargando...");
 		this.dialog.setCancelable(false);
 		this.dialog.show();
 	}

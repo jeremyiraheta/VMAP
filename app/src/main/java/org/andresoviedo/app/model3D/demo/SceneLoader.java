@@ -88,11 +88,11 @@ public class SceneLoader implements LoaderTask.Callback {
     /**
      * Light toggle feature: we have 3 states: no light, light, light + rotation
      */
-    private boolean rotatingLight = true;
+    private boolean rotatingLight = false;
     /**
      * Light toggle feature: whether to draw using lights
      */
-    private boolean drawLighting = true;
+    private boolean drawLighting = false;
     /**
      * Animate model (dae only) or not
      */
@@ -313,14 +313,14 @@ public class SceneLoader implements LoaderTask.Callback {
     public void toggleLighting() {
         if (this.drawLighting && this.rotatingLight) {
             this.rotatingLight = false;
-            makeToastText("Light stopped", Toast.LENGTH_SHORT);
+            //makeToastText("Light stopped", Toast.LENGTH_SHORT);
         } else if (this.drawLighting && !this.rotatingLight) {
             this.drawLighting = false;
-            makeToastText("Lights off", Toast.LENGTH_SHORT);
+            //makeToastText("Lights off", Toast.LENGTH_SHORT);
         } else {
             this.drawLighting = true;
             this.rotatingLight = true;
-            makeToastText("Light on", Toast.LENGTH_SHORT);
+            //makeToastText("Light on", Toast.LENGTH_SHORT);
         }
         requestRender();
     }
@@ -459,14 +459,14 @@ public class SceneLoader implements LoaderTask.Callback {
             makeToastText(allErrors.toString(), Toast.LENGTH_LONG);
         }
         final String elapsed = (SystemClock.uptimeMillis() - startTime) / 1000 + " secs";
-        makeToastText("Build complete (" + elapsed + ")", Toast.LENGTH_LONG);
+        makeToastText("Construccion Completa (" + elapsed + ")", Toast.LENGTH_LONG);
         ContentUtils.setThreadActivity(null);
     }
 
     @Override
     public void onLoadError(Exception ex) {
         Log.e("SceneLoader", ex.getMessage(), ex);
-        makeToastText("There was a problem building the model: " + ex.getMessage(), Toast.LENGTH_LONG);
+        makeToastText("Ocurrio un error al cargar el modelo: " + ex.getMessage(), Toast.LENGTH_LONG);
         ContentUtils.setThreadActivity(null);
     }
 
@@ -480,7 +480,7 @@ public class SceneLoader implements LoaderTask.Callback {
 
     public void loadTexture(Object3DData obj, Uri uri) throws IOException {
         if (obj == null && objects.size() != 1) {
-            makeToastText("Unavailable", Toast.LENGTH_SHORT);
+            makeToastText("No disponible", Toast.LENGTH_SHORT);
             return;
         }
         obj = obj != null ? obj : objects.get(0);
@@ -520,4 +520,5 @@ public class SceneLoader implements LoaderTask.Callback {
     public boolean isRotatingLight() {
         return rotatingLight;
     }
+
 }

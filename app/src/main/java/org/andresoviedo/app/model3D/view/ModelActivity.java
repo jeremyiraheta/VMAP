@@ -2,19 +2,15 @@ package org.andresoviedo.app.model3D.view;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import org.andresoviedo.app.model3D.demo.ExampleSceneLoader;
 import org.andresoviedo.app.model3D.demo.SceneLoader;
 import org.andresoviedo.util.android.ContentUtils;
 
@@ -79,14 +75,8 @@ public class ModelActivity extends Activity {
 
         handler = new Handler(getMainLooper());
 
-        // Create our 3D sceneario
-        if (paramUri == null) {
-            scene = new ExampleSceneLoader(this);
-        } else {
-            scene = new SceneLoader(this);
-        }
+        scene = new SceneLoader(this);
         scene.init();
-        scene.toggleLighting();
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity.
         try {

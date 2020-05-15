@@ -22,10 +22,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
+import org.andresoviedo.util.android.AndroidURLStreamHandlerFactory;
+
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    static {
+        System.setProperty("java.protocol.handler.pkgs", "org.andresoviedo.util.android");
+        URL.setURLStreamHandlerFactory(new AndroidURLStreamHandlerFactory());
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
