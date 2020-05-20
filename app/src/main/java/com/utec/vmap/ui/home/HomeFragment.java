@@ -1,6 +1,9 @@
 package com.utec.vmap.ui.home;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +16,58 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.utec.vmap.R;
+import com.utec.vmap.ui.Edificios.MSV;
+import com.utec.vmap.ui.Edificios.SLoader;
 
 public class HomeFragment extends Fragment {
+    private MSV gLView;
 
-    private HomeViewModel homeViewModel;
+    private SLoader scene;
+
+    private Handler handler;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handler = new Handler(this.getActivity().getMainLooper());
+        scene = new SLoader(this.getActivity(), Uri.parse("assets://assets/models/Mapa.obj"));
+        scene.init();
+        try{
+            gLView = new MSV(this.getActivity(),scene);
+            scene.setGLView(gLView);
+        }catch (Exception ex)
+        {
+            Log.println(Log.ERROR,"",ex.getMessage()) ;
+            return;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(paused)
+        {
+            scene = new SLoader(this.getActivity(), Uri.parse("assets://assets/models/Mapa.obj"));
+            scene.init();
+            try{
+                gLView = new MSV(this.getActivity(),scene);
+            }catch (Exception ex)
+            {
+
+            }
+            paused=false;
+        }
+    }
+    private boolean paused=false;
+    @Override
+    public void onPause() {
+        super.onPause();
+        paused=true;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+        return gLView;
     }
 }

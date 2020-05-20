@@ -20,6 +20,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +35,33 @@ public class ContentUtils {
     private static ThreadLocal<Activity> currentActivity = new ThreadLocal<>();
 
     private static File currentDir = null;
+
+    private static String group="";
+    private static int ll=0;
+    private static boolean iseof=false;
+    public static String getGroup()
+    {
+        return group;
+    }
+    public  static void setGroup(String s)
+    {
+        group = s;
+    }
+    public static int getLLine()
+    {
+       return ll;
+    }
+    public static void setLLine(int l)
+    {
+        ll=l;
+    }
+    public static void setEOF(boolean b)
+    {
+        iseof = b;
+    }
+    public static boolean isEOF(){
+        return iseof;
+    }
 
     public static void printTouchCapabilities(PackageManager packageManager) {
         if (packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH)) {
@@ -92,6 +121,11 @@ public class ContentUtils {
         Uri uri = getUri(path);
         if (uri == null && currentDir != null) {
             uri = Uri.parse("file://" + new File(currentDir, path).getAbsolutePath());
+        }
+        if(uri == null && path != "")
+        {
+            addUri(path,Uri.parse("assets://assets/models/" + path));
+            uri = getUri(path);
         }
         if (uri != null) {
             return getInputStream(uri);

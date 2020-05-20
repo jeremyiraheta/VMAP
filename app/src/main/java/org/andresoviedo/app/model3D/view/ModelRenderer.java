@@ -113,10 +113,6 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 		// This component will draw the actual models using OpenGL
 		drawer = new DrawerFactory(modelSurfaceView.getContext());
 	}
-	public  ModelRenderer()
-	{
-
-	}
 	public float getNear() {
 		return near;
 	}

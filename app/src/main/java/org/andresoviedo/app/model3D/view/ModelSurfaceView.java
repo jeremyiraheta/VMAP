@@ -1,13 +1,11 @@
 package org.andresoviedo.app.model3D.view;
 
-import android.app.Activity;
+
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
-import com.utec.vmap.ui.Edificios.SLoader;
 
 import org.andresoviedo.app.model3D.controller.TouchController;
-import org.andresoviedo.app.model3D.demo.SceneLoader;
 
 import java.io.IOException;
 
@@ -22,10 +20,6 @@ public class ModelSurfaceView extends GLSurfaceView {
 	private ModelActivity parent;
 	private ModelRenderer mRenderer;
 	private TouchController touchHandler;
-	public ModelSurfaceView(Activity activity)
-	{
-		super(activity);
-	}
 	public ModelSurfaceView(ModelActivity parent) throws IllegalAccessException, IOException {
 		super(parent);
 

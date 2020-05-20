@@ -77,6 +77,7 @@ public class ModelActivity extends Activity {
 
         scene = new SceneLoader(this);
         scene.init();
+        scene.toggleLighting();
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity.
         try {

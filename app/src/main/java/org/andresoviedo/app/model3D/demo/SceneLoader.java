@@ -88,11 +88,11 @@ public class SceneLoader implements LoaderTask.Callback {
     /**
      * Light toggle feature: we have 3 states: no light, light, light + rotation
      */
-    private boolean rotatingLight = false;
+    private boolean rotatingLight = true;
     /**
      * Light toggle feature: whether to draw using lights
      */
-    private boolean drawLighting = false;
+    private boolean drawLighting = true;
     /**
      * Animate model (dae only) or not
      */

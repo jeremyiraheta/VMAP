@@ -18,6 +18,18 @@
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/nav_fundadores"
-        android:name="com.utec.vmap.ui.Edificios.EdificiosSelect"
+        android:name="com.utec.vmap.ui.Edificios.Fundadores"
         android:label="@string/fundadores" />
+    <fragment
+        android:id="@+id/nav_morazan"
+        android:name="com.utec.vmap.ui.Edificios.Morazan"
+        android:label="@string/morazan" />
+    <fragment
+        android:id="@+id/nav_benito"
+        android:name="com.utec.vmap.ui.Edificios.Benito"
+        android:label="@string/benito" />
+    <fragment
+        android:id="@+id/nav_simon"
+        android:name="com.utec.vmap.ui.Edificios.Simon"
+        android:label="@string/simon" />
 </navigation>

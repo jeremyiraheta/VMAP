@@ -4,24 +4,19 @@
 /* Load the OBJ model from MODEL_DIR, centering and scaling it.
  The scale comes from the sz argument in the constructor, and
  is implemented by changing the vertices of the loaded model.
-
  The model can have vertices, normals and tex coordinates, and
  refer to materials in a MTL file.
-
- The OpenGL commands for rendering the model are stored in 
+ The OpenGL commands for rendering the model are stored in
  a display list (modelDispList), which is drawn by calls to
  draw().
-
  Information about the model is printed to stdout.
-
  Based on techniques used in the OBJ loading code in the
- JautOGL multiplayer racing game by Evangelos Pournaras 
+ JautOGL multiplayer racing game by Evangelos Pournaras
  (http://today.java.net/pub/a/today/2006/10/10/
- development-of-3d-multiplayer-racing-game.html 
- and https://jautogl.dev.java.net/), and the 
- Asteroids tutorial by Kevin Glass 
+ development-of-3d-multiplayer-racing-game.html
+ and https://jautogl.dev.java.net/), and the
+ Asteroids tutorial by Kevin Glass
  (http://www.cokeandcode.com/asteroidstutorial)
-
  CHANGES (Feb 2007)
  - a global flipTexCoords boolean
  - drawToList() sets and uses flipTexCoords
@@ -382,10 +377,10 @@ public class WavefrontLoader {
 	} // end of addVert()
 
 	private boolean addTexCoord(String line, boolean isFirstTC)
-	/*
-	 * Add the texture coordinate from the line "vt u v w" to the texCoords ArrayList. There may only be two tex coords
-	 * on the line, which is determined by looking at the first tex coord line.
-	 */
+		/*
+		 * Add the texture coordinate from the line "vt u v w" to the texCoords ArrayList. There may only be two tex coords
+		 * on the line, which is determined by looking at the first tex coord line.
+		 */
 	{
 		if (isFirstTC) {
 			hasTCs3D = checkTC3D(line);
@@ -402,19 +397,19 @@ public class WavefrontLoader {
 	} // end of addTexCoord()
 
 	private boolean checkTC3D(String line)
-	/*
-	 * Check if the line has 4 tokens, which will be the "vt" token and 3 tex coords in this case.
-	 */
+		/*
+		 * Check if the line has 4 tokens, which will be the "vt" token and 3 tex coords in this case.
+		 */
 	{
 		String[] tokens = line.split("\\s+");
 		return (tokens.length == 4);
 	} // end of checkTC3D()
 
 	private Tuple3 readTCTuple(String line)
-	/*
-	 * The line starts with a "vt" OBJ word and two or three floats (x, y, z) for the tex coords separated by spaces. If
-	 * there are only two coords, then the z-value is assigned a dummy value, DUMMY_Z_TC.
-	 */
+		/*
+		 * The line starts with a "vt" OBJ word and two or three floats (x, y, z) for the tex coords separated by spaces. If
+		 * there are only two coords, then the z-value is assigned a dummy value, DUMMY_Z_TC.
+		 */
 	{
 		StringTokenizer tokens = new StringTokenizer(line, " ");
 		tokens.nextToken(); // skip "vt" OBJ word
@@ -623,9 +618,9 @@ public class WavefrontLoader {
 		}
 
 		public void readMaterials(BufferedReader br)
-		/*
-		 * Parse the MTL file line-by-line, building Material objects which are collected in the materials ArrayList.
-		 */
+			/*
+			 * Parse the MTL file line-by-line, building Material objects which are collected in the materials ArrayList.
+			 */
 		{
 			Log.v("materials", "Reading material...");
 			try {
@@ -682,9 +677,9 @@ public class WavefrontLoader {
 		} // end of readMaterials()
 
 		private Tuple3 readTuple3(String line)
-		/*
-		 * The line starts with an MTL word such as Ka, Kd, Ks, and the three floats (x, y, z) separated by spaces
-		 */
+			/*
+			 * The line starts with an MTL word such as Ka, Kd, Ks, and the three floats (x, y, z) separated by spaces
+			 */
 		{
 			StringTokenizer tokens = new StringTokenizer(line, " ");
 			tokens.nextToken(); // skip MTL word
@@ -873,7 +868,7 @@ public class WavefrontLoader {
 		 */
 		public ArrayList<int[]> facesNormIdxs;
 
-        private FloatBuffer vertex;
+		private FloatBuffer vertex;
 		private FloatBuffer normals;
 		private ArrayList<Tuple3> texCoords;
 
@@ -995,11 +990,11 @@ public class WavefrontLoader {
 					// add 0's if the vt or vn index values are missing;
 					// 0 is a good choice since real indices start at 1
 
-                    if (vertIdx < 0){
-					    vertIdx = this.vertex.capacity()/3+vertIdx;
-                        if (vt != null)	vt[faceIndex] = texCoords.size() + vt[faceIndex];
-                        if (vn != null) vn[faceIndex] = normals.capacity()/3 + vn[faceIndex];
-                    }
+					if (vertIdx < 0){
+						vertIdx = this.vertex.capacity()/3+vertIdx;
+						if (vt != null)	vt[faceIndex] = texCoords.size() + vt[faceIndex];
+						if (vn != null) vn[faceIndex] = normals.capacity()/3 + vn[faceIndex];
+					}
 					else if (WavefrontLoader.INDEXES_START_AT_1) {
 						vertIdx--;
 						if (vt != null)	vt[faceIndex] = vt[faceIndex] - 1;
@@ -1065,9 +1060,9 @@ public class WavefrontLoader {
 		}
 
 		public void showUsedMaterials()
-		/*
-		 * List all the materials used by faces, and the number of faces that have used them.
-		 */
+			/*
+			 * List all the materials used by faces, and the number of faces that have used them.
+			 */
 		{
 			System.out.println("No. of materials used: " + faceMats.size());
 
