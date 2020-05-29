@@ -1,3 +1,5 @@
+drop database if exists vmap;
+create database vmap;
 /*==============================================================*/
 /* Table: ESTUDIANTES                                           */
 /*==============================================================*/
@@ -7,7 +9,6 @@ create table ESTUDIANTES
    NOMBRES              varchar(100) not null,
    APELLIDOS            varchar(100) not null,
    CARRERA              varchar(100) not null,
-   ACTIVO               bool not null default false,
    primary key (CARNET)
 );
 
@@ -46,18 +47,17 @@ create table PINTERES
 (
    CARNET               varchar(100) not null,
    ID_LOCACION          int not null,
-   FECHA                datetime not null default 'GETDATE()',
+   FECHA                datetime not null,
    primary key (CARNET, ID_LOCACION),
    constraint FK_REFERENCE_1 foreign key (CARNET)
       references ESTUDIANTES (CARNET),
    constraint FK_REFERENCE_2 foreign key (ID_LOCACION)
       references LOCACIONES (ID_LOCACION)
 );
-
-/*==============================================================*/
-/* Table: VERSIONADO                                            */
-/*==============================================================*/
-create table VERSIONADO
-(
-   CURRENT              varchar(10) not null default '1.0'
-);
+delimiter //
+create procedure insertLocacion(NOMBRE varchar(100), DESCRIPCION varchar(500),FACULTAD varchar(100),HORARIOS varchar(100), X float, Y float, Z float)
+begin
+	insert into points(X,Y,Z) values(1,2,3);
+  insert into locaciones(ID_POINT,NOMBRE, DESCRIPCION, FACULTAD, HORARIOS) values (LAST_INSERT_ID(),'test2','test2','test2','test2');
+end//
+delimiter ;
