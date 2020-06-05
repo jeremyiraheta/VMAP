@@ -27,5 +27,5 @@
             <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest>

@@ -1,5 +1,6 @@
 drop database if exists vmap;
 create database vmap;
+use vmap;
 /*==============================================================*/
 /* Table: ESTUDIANTES                                           */
 /*==============================================================*/
@@ -57,7 +58,7 @@ create table PINTERES
 delimiter //
 create procedure insertLocacion(NOMBRE varchar(100), DESCRIPCION varchar(500),FACULTAD varchar(100),HORARIOS varchar(100), X float, Y float, Z float)
 begin
-	insert into points(X,Y,Z) values(1,2,3);
-  insert into locaciones(ID_POINT,NOMBRE, DESCRIPCION, FACULTAD, HORARIOS) values (LAST_INSERT_ID(),'test2','test2','test2','test2');
+	insert into POINTS(X,Y,Z) values(X,Y,Z);
+	insert into LOCACIONES(ID_POINT,NOMBRE, DESCRIPCION, FACULTAD, HORARIOS) values (LAST_INSERT_ID(),NOMBRE,DESCRIPCION,FACULTAD,HORARIOS);
 end//
 delimiter ;

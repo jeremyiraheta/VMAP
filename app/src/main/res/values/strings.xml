@@ -5,7 +5,7 @@
     <string name="nav_header_title">UTEC Mapa Virtual</string>
     <string name="nav_header_subtitle">Seleccion</string>
     <string name="nav_header_desc">Navegacion</string>
-    <string name="action_settings">Opciones</string>
+    <string name="action_settings">Ver Informacion</string>
 
     <string name="menu_home">Mapa</string>
     <string name="login">Logear</string>
@@ -15,11 +15,11 @@
     <string name="benito">Benito Juarez</string>
     <string name="simon">Simon Bolivar</string>
 
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Carnet</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
-    <string name="action_sign_in_short">Registrarse</string>
     <string name="invalid_username">No es un usuario valido</string>
-    <string name="invalid_password">Password debe ser de almenos 5 caracteres</string>
     <string name="login_failed">"Fallo el logueo"</string>
+    <string name="profile">Perfil</string>
+    <string name="loginmsg">Logear si desea sincronizar\n sus puntos de interes pero\n no es necesario</string>
 </resources>

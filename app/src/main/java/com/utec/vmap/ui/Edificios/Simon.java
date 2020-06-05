@@ -24,7 +24,7 @@ public class Simon extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new Handler(this.getActivity().getMainLooper());
-        scene = new SLoader(this.getActivity(), Uri.parse("assets://assets/models/Morazan.obj"));
+        scene = new SLoader(this.getActivity(), Uri.parse("assets://assets/models/Bolivar.obj"));
         scene.init();
         try {
             gLView = new MSV(this.getActivity(), scene);

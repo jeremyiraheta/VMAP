@@ -1,16 +1,5 @@
-# Blender MTL File: 'Mapa.blend'
+# Blender MTL File: 'None'
 # Material Count: 7
-
-newmtl overlay
-Ns 225.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.800000 0.800000
-Ks 0.050000 0.050000 0.050000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
-map_Kd overlay.png
 
 newmtl Material.001
 Ns 215.323726
@@ -21,7 +10,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 3
-map_Kd FundadoresTexture.png
+map_Kd Mapa.png
 
 newmtl Material.002
 Ns 225.000000
@@ -32,7 +21,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd BenitoTextura.png
+map_Kd Mapa.png
 
 newmtl Steel_-_Satin
 Ns 225.000000
@@ -43,9 +32,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd MorazanTexture.png
+map_Kd Mapa.png
 
-newmtl Steel_-_Satin.001
+newmtl Steel_-_Satin.002
 Ns 225.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
@@ -54,7 +43,18 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd MorazanTexture.png
+map_Kd Mapa.png
+
+newmtl overlay
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Mapa.png
 
 newmtl roof
 Ns 323.999994

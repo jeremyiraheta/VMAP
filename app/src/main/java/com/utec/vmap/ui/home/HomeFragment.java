@@ -48,8 +48,6 @@ public class HomeFragment extends Fragment {
         super.onResume();
         if(paused)
         {
-            scene = new SLoader(this.getActivity(), Uri.parse("assets://assets/models/Mapa.obj"));
-            scene.init();
             try{
                 gLView = new MSV(this.getActivity(),scene);
             }catch (Exception ex)

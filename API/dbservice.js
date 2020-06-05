@@ -1,8 +1,8 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
    host: 'localhost',
-   user: 'dbuser',
-   password: 'brandom',
+   user: 'vmap',
+   password: '12345',
    database: 'vmap',
    port: 3306
 });
@@ -38,7 +38,7 @@ app.get('/', function(req,res){
   "</html>");
 });
 app.get('/locaciones', function (req, res) {
-   var query = connection.query('SELECT ID_LOCACION, NOMBRE, DESCRIPCION, FACULTAD, HORARIOS, X,Y,Z FROM locaciones l inner join points p on p.ID_POINT = l.ID_POINT ', function(error, result){
+   var query = connection.query('SELECT ID_LOCACION, NOMBRE, DESCRIPCION, FACULTAD, HORARIOS, X,Y,Z FROM LOCACIONES l inner join POINTS p on p.ID_POINT = l.ID_POINT ', function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{
@@ -70,6 +70,7 @@ app.post('/sendlocacion',urlencodedParser, function (req, res) {
   var q = "call insertLocacion('" + req.body.nombre + "','" + req.body.descripcion + "','" + req.body.facultad + "','" + req.body.horarios + "'," +req.body.x + "," + req.body.y + "," +req.body.z + ");";  
    var query = connection.query(q, function(error, result){
       if(error){        
+	 console.log(error);
          res.end("500: Fracaso");
       }else{
          res.end("200: Exito");
@@ -79,7 +80,7 @@ app.post('/sendlocacion',urlencodedParser, function (req, res) {
 })
 app.get('/locaciones/:id', function (req, res) {
    var id = " where ID_LOCACION = " + req.params.id;
-   var q = 'SELECT ID_LOCACION, NOMBRE, DESCRIPCION, FACULTAD, HORARIOS, X,Y,Z FROM locaciones l inner join points p on p.ID_POINT = l.ID_POINT ' + id;
+   var q = 'SELECT ID_LOCACION, NOMBRE, DESCRIPCION, FACULTAD, HORARIOS, X,Y,Z FROM LOCACIONES l inner join POINTS p on p.ID_POINT = l.ID_POINT ' + id;
    var query = connection.query(q, function(error, result){
       if(error){
          res.end("500: Fracaso");
@@ -109,7 +110,7 @@ app.get('/locaciones/:id', function (req, res) {
 );
 })
 app.get('/pinteres', function (req, res) {
-   var query = connection.query('SELECT * FROM pinteres', function(error, result){
+   var query = connection.query('SELECT * FROM PINTERES', function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{
@@ -133,17 +134,20 @@ app.get('/pinteres', function (req, res) {
 );
 })
 app.post('/sendpinteres',urlencodedParser, function (req, res) {
-   var query = connection.query('insert into pinteres values (\'' + req.body.carnet + '\',' + req.body.id + ',CURDATE())', function(error, result){
+   var q = 'insert into PINTERES values (\'' + req.body.carnet + '\',' + req.body.id + ',CURDATE())';
+   var query = connection.query(q, function(error, result){
       if(error){
+	 console.log("Fracaso en: " + q);
          res.end("500: Fracaso");
       }else{
+	 console.log("Exito en: " +q);
          res.end("200: Exito");
       }
    }
 );   
 })
 app.get('/estudiantes', function (req, res) {
-   var query = connection.query('SELECT * FROM estudiantes', function(error, result){
+   var query = connection.query('SELECT * FROM ESTUDIANTES', function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{
@@ -168,10 +172,13 @@ app.get('/estudiantes', function (req, res) {
 );
 })
 app.post('/sendestudiante',urlencodedParser, function (req, res) {
-   var query = connection.query('insert into estudiantes values (\'' + req.body.carnet + '\',\'' + req.body.nombres + '\',\'' + req.body.apellidos + '\',\'' + req.body.facultad + '\')', function(error, result){
+   var q = 'insert into ESTUDIANTES values (\'' + req.body.carnet + '\',\'' + req.body.nombres + '\',\'' + req.body.apellidos + '\',\'' + req.body.facultad + '\')';
+   var query = connection.query(q, function(error, result){
       if(error){
+	 console.log("Fracaso en: " + q);
          res.end("500: Fracaso");
       }else{
+	 console.log("Exito en: " + q);
          res.end("200: Exito");
       }
    }
@@ -179,7 +186,7 @@ app.post('/sendestudiante',urlencodedParser, function (req, res) {
 })
 app.get('/estudiantes/:carnet', function (req, res) {
   var carnet = " where CARNET = " + req.params.carnet;
-   var query = connection.query('SELECT * FROM estudiantes' + carnet, function(error, result){
+   var query = connection.query('SELECT * FROM ESTUDIANTES' + carnet, function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{
