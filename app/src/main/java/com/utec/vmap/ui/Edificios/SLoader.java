@@ -134,13 +134,19 @@ public class SLoader implements LoaderTask.Callback {
      * time when model loading has started (for stats)
      */
     private long startTime;
+    private boolean animateCamera = true;
 
     public SLoader(Activity activity, Uri model)
     {
         this.parent = activity;
         this.uri = model;
     }
-
+    private Thread st;
+    public void init(Thread subtarea)
+    {
+        st=subtarea;
+        init();
+    }
     public void init() {
         camera = new Camera();
         camera.setChanged(true); // force first draw
@@ -169,6 +175,8 @@ public class SLoader implements LoaderTask.Callback {
         }
     }
     public void processTouch(float x, float y) {
+        move=!move;
+        if(!move && test != null) Log.e("Location X:", test.getPositionX() + " Y:" + test.getPositionY() + " Z: " + test.getPositionZ());
         MR mr = v.getModelRenderer();
         Object3DData objectToSelect = CollisionDetection.getBoxIntersection(getObjects(), mr.getWidth(), mr.getHeight
                 (), mr.getModelViewMatrix(), mr.getModelProjectionMatrix(), x, y);
@@ -192,8 +200,18 @@ public class SLoader implements LoaderTask.Callback {
             }
         }
     }
-
-    synchronized void addObject(Object3DData obj) {
+    private Object3DData test;
+    private boolean move=true;
+    public void setCameraAnimation(boolean animate)
+    {
+        animateCamera = animate;
+    }
+    public synchronized void addObject(Object3DData obj) {
+        if(obj.getId()!=null)
+        {
+            if(obj.getId().equals("test"))
+                test=obj;
+        }
         List<Object3DData> newList = new ArrayList<Object3DData>(objects);
         newList.add(obj);
         this.objects = newList;
@@ -204,13 +222,20 @@ public class SLoader implements LoaderTask.Callback {
         this.v=v;
     }
     public void onDrawFrame() {
-
-
+        if(move)
+        {
+            if(test!=null)
+            {
+                if(test.getPositionX() > 50)
+                    test.setPosition(new float[]{-50,test.getPositionY(),test.getPositionZ()});
+                test.setPosition(new float[]{test.getPositionX()+0.1f,test.getPositionY(),test.getPositionZ()});
+            }
+        }
         // smooth camera transition
         camera.animate();
 
         // initial camera animation. animate if user didn't touch the screen
-        if (!userHasInteracted) {
+        if (!userHasInteracted && animateCamera) {
             animateCamera();
         }
 
@@ -221,6 +246,16 @@ public class SLoader implements LoaderTask.Callback {
                 Object3DData obj = objects.get(i);
                 animator.update(obj, isShowBindPose());
             }
+        }
+    }
+    public void clearSubObjects()
+    {
+        if(objects==null)return;
+        for (Object3DData o:
+             objects) {
+            if(o.getId() == null ) continue;
+            if(!o.getId().equals("main"))
+                objects.remove(o);
         }
     }
     private void animateCamera(){
@@ -244,6 +279,7 @@ public class SLoader implements LoaderTask.Callback {
 
         // TODO: move error alert to LoaderTask
         List<String> allErrors = new ArrayList<>();
+        datas.get(0).setId("main");
         for (Object3DData data : datas) {
             addObject(data);
             allErrors.addAll(data.getErrors());
@@ -254,6 +290,8 @@ public class SLoader implements LoaderTask.Callback {
         final String elapsed = (SystemClock.uptimeMillis() - startTime) / 1000 + " secs";
         makeToastText("Construccion Completa (" + elapsed + ")", Toast.LENGTH_LONG);
         ContentUtils.setThreadActivity(null);
+        if(st!=null)
+            st.start();
     }
     @Override
     public void onLoadError(Exception ex) {

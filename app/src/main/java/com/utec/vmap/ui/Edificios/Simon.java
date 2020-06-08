@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.utec.vmap.Util;
+
 public class Simon extends Fragment {
 
     private MSV gLView;
@@ -33,6 +35,24 @@ public class Simon extends Fragment {
             Log.println(Log.ERROR, "", ex.getMessage());
             return;
         }
+        Util.setTitle("Simon Bolivar");
+        Util.setText("La universidad designo como Simon Bolivar a su primer edificio en memoria del paladin latinoamericano, libertador de pueblos oprimidos en la epoca colonial tardia<br>" +
+                "<b>Dependencias</b><br>" +
+                "-Decanato de la Facultad de Derecho<br>" +
+                "-Biblioteca especializada de Derecho<br>" +
+                "-Laboratorio 14<br>" +
+                "-Laboratorio de Data Center<br>" +
+                "-Centro de copias TecnyCopias<br>" +
+                "-Sala de deportes<br>" +
+                "-Auditorio Dr. Rufino Garay<br>" +
+                "-Laboratorio 12<br>" +
+                "-Aulas: 201 a 208<br>" +
+                "-Sala de jurados Dr. Jose Enrique Burgos<br>" +
+                "-Sala de Audiencia de Familia<br>" +
+                "-Aulas: 301 a 309<br>" +
+                "-Aulas: 401 a 407<br>" +
+                "-Camara Gesell<br>" +
+                "-Aulas: 501 a 507<br>");
     }
 
     @Nullable

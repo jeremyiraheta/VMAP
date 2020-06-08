@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.utec.vmap.Util;
+
 public class Fundadores extends Fragment {
 
     private MSV gLView;
@@ -34,6 +36,20 @@ public class Fundadores extends Fragment {
             Log.println(Log.ERROR, "", ex.getMessage());
             return;
         }
+        Util.setTitle("Los Fundadores");
+        Util.setText("Nominado asi como un reconocimiento a los empresarios y academicos visionarios que emprendieron la fundacion de la UTEC como un suenyo hecho realidad, para la educacion superior en el pais:<br>" +
+                "<b>Dependencias</b><br>" +
+                "-Presidencia<br>" +
+                "-Asistencia de Presidencia<br>" +
+                "-Vicepresidencia<br>" +
+                "-Asistencia Vicepresidencia<br>" +
+                "-Salon Ignacio Ellacuria<br>" +
+                "-Direccion adjunta de Informatica<br>" +
+                "-Secretaria General<br>" +
+                "-Asesoria Juridica<br>" +
+                "-Vicerectoria de Desarrollo Educativo<br>" +
+                "-Rectoria<br>" +
+                "-Sala de sesiones<br>");
     }
 
     @Nullable

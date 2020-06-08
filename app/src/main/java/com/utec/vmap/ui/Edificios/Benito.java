@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.utec.vmap.Util;
+
 public class Benito extends Fragment {
 
     private MSV gLView;
@@ -33,6 +35,18 @@ public class Benito extends Fragment {
             Log.println(Log.ERROR, "", ex.getMessage());
             return;
         }
+        Util.setTitle("Benito Juarez");
+        Util.setText("La universidad ha denominado Benito Juarez al edificio donde se erige el busto del que fuera brillante jurista y presidente de la Republica de Mexico<BR>" +
+                "<b>Dependencias:</b> -Laboratorio 3, de Informatica<br>" +
+                "-Biblioteca Central<br>" +
+                "-Plaza Benito Juarez<br>" +
+                "-Laboratorio 10, de Academia Microsoft<br>" +
+                "-Coordinacion de Disenyo Grafico<br>" +
+                "-Docentes de Disenyo Grafico<br>" +
+                "-Aulas: 201 a 203<br>" +
+                "-Aulas: 301 a 305<br>" +
+                "-Aulas: 401 a 405<br>" +
+                "-Aulas: 501 a 506<br>");
     }
 
     @Nullable

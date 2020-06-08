@@ -21,5 +21,6 @@
     <string name="invalid_username">No es un usuario valido</string>
     <string name="login_failed">"Fallo el logueo"</string>
     <string name="profile">Perfil</string>
-    <string name="loginmsg">Logear si desea sincronizar\n sus puntos de interes pero\n no es necesario</string>
+    <string name="loginmsg">Si logea se identificaran automaticamente\n sus puntos de interes pero no es requerido</string>
+    <string name="title_activity_informacion">Informacion</string>
 </resources>

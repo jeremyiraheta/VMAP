@@ -1,6 +1,7 @@
 package com.utec.vmap;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,10 +9,13 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.AttributeSet;
 import android.util.JsonReader;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +24,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.utec.vmap.api.ApiCallback;
 import com.utec.vmap.api.RestfulApi;
+import com.utec.vmap.ui.home.Informacion;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -36,14 +41,16 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private RestfulApi api;
     private Activity act;
-    private final String HOST = "http://192.168.1.10:8081";
+    private final String HOST = "http://13.82.193.57:8081";
     private final String API_SENDESTUDIANTE = HOST +"/sendestudiante";
+    private final String API_LOCACIONES = HOST +"/locaciones";
 
     static {
         System.setProperty("java.protocol.handler.pkgs", "org.andresoviedo.util.android");
@@ -67,10 +74,14 @@ public class MainActivity extends AppCompatActivity {
         if(!Util.Load(this,"carnet").equals("")) {
             navController.getGraph().setStartDestination(R.id.nav_profile);
             navigationView.getMenu().findItem(R.id.nav_login).setTitle("Perfil");
+        }else{
+            Util.setTitle("Informacion");
+            Util.setText("Si sincroniza sus datos apareceran lugares de interes de manera automatica");
         }
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         api = new RestfulApi(getApplicationContext());
+        Util.SyncLocations(api,API_LOCACIONES);
         act=this;
     }
 
@@ -89,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLogin(View view) {
-        //http://consultas.utec.edu.sv/servicios_movil/ServiciosAlumnos.asmx/Notas?carnet=1557812014
-        //http://consultas.utec.edu.sv/servicios_movil/ServiciosAlumnos.asmx/Login?carnet=2541582018&password=13051988
         EditText user = view.getRootView().findViewById(R.id.username);
         EditText pass = view.getRootView().findViewById(R.id.password);
         if(user.getText().toString().trim().equals("") || pass.getText().toString().trim().equals(""))
@@ -109,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     nombres = json.getString("nombres");
                 }catch (Exception ex)
                 {
-                    Toast.makeText(view.getContext(),"Ocurrio un error!\n" + ex.getMessage(), Toast.LENGTH_LONG);
+                    Toast.makeText(view.getRootView().getContext(),"Ocurrio un error!\n" + ex.getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
                 if(!carnet.equals("0"))
@@ -139,20 +148,32 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("SendEstudiante: ", "Ocurrio un error en la conexion " + error);
                         }
                     });
-                    act.recreate();
+                    api.get("http://consultas.utec.edu.sv/servicios_movil/ServiciosAlumnos.asmx/Notas?carnet=" + Util.Load(act,"carnet"), new ApiCallback() {
+                        @Override
+                        public void OnSuccess(String obj) {
+                            Util.Save(act,"materias",obj);
+                            act.recreate();
+                        }
+
+                        @Override
+                        public void OnError(String error) {
+                            Log.e("API: ", "No se obtuvieron las materias");
+                            act.recreate();
+                        }
+                    });
                 }else
-                    Toast.makeText(view.getContext(),"Datos incorrectos", Toast.LENGTH_LONG);
+                    Toast.makeText(view.getRootView().getContext(),"Datos incorrectos", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void OnError(String error) {
-                Toast.makeText(view.getContext(),"Ocurrio un error!\n" + error, Toast.LENGTH_LONG);
+                Toast.makeText(view.getRootView().getContext(),"Ocurrio un error!\n" + error, Toast.LENGTH_LONG).show();
             }
         });
     }
     public void onLogout(View view) {
-        Util.Save(this,"carnet","");
+        Util.Clear(act);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.nav_login);
         act.recreate();
@@ -168,4 +189,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        boolean ret = super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.action_settings)
+            startActivity(new Intent(this.getApplicationContext(), Informacion.class));
+        return ret;
+    }
 }
