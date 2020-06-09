@@ -134,7 +134,7 @@ app.get('/locaciones/:id', function (req, res) {
 );
 })
 app.get('/pinteres', function (req, res) {
-   var query = connection.query('SELECT CARNET,NOMBRE,FECHA FROM PINTERES inner join LOCACIONES l l.ID_LOCACION=p.ID_LOCACION', function(error, result){
+   var query = connection.query('SELECT CARNET,NOMBRE,FECHA FROM PINTERES p inner join LOCACIONES l on l.ID_LOCACION=p.ID_LOCACION', function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{
@@ -144,7 +144,7 @@ app.get('/pinteres', function (req, res) {
              for(var i=0; i< resultado.length; i++){
              resp[i] = {
               CARNET: resultado[i].CARNET,
-              ID_LOCACION: resultado[i].ID_LOCACION,
+              NOMBRE: resultado[i].NOMBRE,
               FECHA: resultado[i].FECHA
             }            
             }
@@ -159,7 +159,7 @@ app.get('/pinteres', function (req, res) {
 })
 app.get('/pinteres/:carnet', function (req, res) {
    var carnet = " where CARNET = " + req.params.carnet;
-   var query = connection.query('SELECT CARNET,NOMBRE,FECHA FROM PINTERES p' + carnet + " inner join LOCACIONES l l.ID_LOCACION=p.ID_LOCACION", function(error, result){
+   var query = connection.query("SELECT CARNET,NOMBRE,FECHA FROM PINTERES p inner join LOCACIONES l on l.ID_LOCACION=p.ID_LOCACION" + carnet, function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{
@@ -169,7 +169,7 @@ app.get('/pinteres/:carnet', function (req, res) {
              for(var i=0; i< resultado.length; i++){
              resp[i] = {
               CARNET: resultado[i].CARNET,
-              ID_LOCACION: resultado[i].ID_LOCACION,
+              NOMBRE: resultado[i].NOMBRE,
               FECHA: resultado[i].FECHA
             }            
             }

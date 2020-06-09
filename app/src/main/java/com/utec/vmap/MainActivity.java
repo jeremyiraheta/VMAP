@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String API_LOCACIONES = HOST +"/locaciones";
     public static final String API_PINTERES = HOST + "/pinteres";
     public static final String API_SEDPINTERES = HOST + "/sendpinteres";
+    public static final String API_DELPINTERES = HOST + "/delpinteres";
 
     static {
         System.setProperty("java.protocol.handler.pkgs", "org.andresoviedo.util.android");
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.e("submit","text");
                 return true;
             }
 
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         {
             for(int i = 0; i < l.length; i++) {
 
-                temp[0] = l[i].getID();
+                temp[0] = i;
                 temp[1] = l[i].get_nombre();
                 if(l[i].get_nombre().toLowerCase().indexOf(query.toLowerCase()) > -1) {
                     items.add(l[i].get_nombre());
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             for(int i = 0; i < l.length; i++) {
 
-                temp[0] = l[i].getID();
+                temp[0] = i;
                 temp[1] = l[i].get_nombre();
                 items.add(l[i].get_nombre());
                 cursor.addRow(temp);

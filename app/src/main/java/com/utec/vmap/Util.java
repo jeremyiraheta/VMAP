@@ -74,6 +74,45 @@ public class Util {
             }
         });
     }
+    public static int getPinteres(String name)
+    {
+        for (Locacion l:
+             getLocacions(false)) {
+            if(name.toLowerCase().equals(l.get_nombre().toLowerCase()))
+                return l.getID();
+        }
+        return -1;
+    }
+    public static boolean containsPinteres(int key)
+    {
+        return pinteres.contains(key);
+    }
+    public static void removePintere(int key)
+    {
+        try{
+            pinteres.remove(key);
+            HashMap<String, String> data = new HashMap<>();
+            data.put("id",String.valueOf(key));
+            data.put("carnet",Load(act,"carnet"));
+            ap.post(MainActivity.API_DELPINTERES, data, new ApiCallback() {
+                @Override
+                public void OnSuccess(String obj) {
+                    if(obj.indexOf("5")>-1)
+                        Log.i("DelPinteres: ", "Eliminacion exitosa");
+                    else
+                        Log.i("DelPinteres: ", "Eliminacion fracasada");
+                }
+
+                @Override
+                public void OnError(String error) {
+                    Log.e("DelPinteres:", "Ocurrio un error en la conexion");
+                }
+            });
+        }catch (Exception ex)
+        {
+            Log.e("DeletePintere:", "No fue posible eliminar " + key);
+        }
+    }
     public static void addPinteres(String name)
     {
         for (Locacion l:
