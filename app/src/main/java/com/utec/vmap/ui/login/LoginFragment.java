@@ -19,6 +19,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
+        Util.setTitle("Informacion");
+        Util.setText("Si sincroniza sus datos mostrara sus puntos de interes guardados");
         if(!Util.Load(getActivity(),"carnet").equals(""))
             Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.nav_profile);
         return root;

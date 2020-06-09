@@ -39,17 +39,17 @@ public class SearchAdapter extends CursorAdapter {
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txt = text.getText().toString();
+                String txt = ((TextView)v).getText().toString();
                 int value = Util.getPinteres(txt);
                 if(!Util.containsPinteres(value))
                 {
                     Util.addPinteres(txt);
-                    Toast.makeText(view.getContext(),"Punto de interes agregado " + text.getText().toString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(),"Punto de interes agregado " + txt,Toast.LENGTH_LONG).show();
                 }else{
                     Util.removePintere(value);
-                    Toast.makeText(view.getContext(),"Se elimino el punto de interes " + text.getText().toString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(),"Se elimino el punto de interes " + txt,Toast.LENGTH_LONG).show();
                 }
-                view.refreshDrawableState();
+                Util.setReload(true);
             }
         });
         return view;

@@ -183,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(view.getRootView().getContext(),"Ingrese todos los datos!", Toast.LENGTH_LONG).show();
             return;
         }
+        Toast.makeText(view.getRootView().getContext(),"Logeando!", Toast.LENGTH_SHORT).show();
         api.get("http://consultas.utec.edu.sv/servicios_movil/ServiciosAlumnos.asmx/Login?carnet="+ user.getText().toString().trim().replace("-","") +"&password=" + pass.getText().toString().trim(), new ApiCallback() {
             @Override
             public void OnSuccess(String obj) {
@@ -210,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                     Util.Save(act,"facultad", carrera);
                     Util.Save(act,"nombres", nombres.replace(apellido,""));
                     Util.Save(act,"apellidos",apellido);
+                    Util.setReload(true);
                     api.post(API_SENDESTUDIANTE, Util.getAllValues(act,new String[]{"carnet", "facultad", "nombres", "apellidos"}), new ApiCallback() {
                         @Override
                         public void OnSuccess(String obj) {
@@ -253,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.nav_login);
         Util.clearPInteres();
+        Util.setReload(true);
         act.recreate();
 
     }

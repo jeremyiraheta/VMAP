@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
                     while(scene != null)
                     {
                         try{
+                            Util.loadSI();
                             Util.LoadLocations(scene,false);
                             Thread.sleep(20000);
                         }catch (Exception ex)
@@ -66,8 +67,13 @@ public class HomeFragment extends Fragment {
                     while(scene != null)
                     {
                         try{
-                            Util.LoadLocations(scene,true);
-                            Thread.sleep(10000);
+                            if(Util.shouldReload())
+                            {
+                                Util.loadSI();
+                                Util.LoadLocations(scene,true);
+                                Util.setReload(false);
+                            }
+                            Thread.sleep(2000);
                         }catch (Exception ex)
                         {
                         }
@@ -83,31 +89,14 @@ public class HomeFragment extends Fragment {
         try{
             gLView = new MSV(this.getActivity(),scene);
             scene.setGLView(gLView);
-            Util.setTitle("Lugares de Interes");
-            String txt="<br>";
-            Util.setText("");
-            Random rnd = new Random();
-            for (Util.Locacion l:
-                 Util.getLocacions(true)) {
-                float red=rnd.nextInt(255),green=rnd.nextInt(255),blue=rnd.nextInt(255);
-                Util.getLocacion(l.getID()).setColor(new float[]{red/255,green/255,blue/255});
-                String r=Integer.toHexString((int)red),g=Integer.toHexString((int)green),b=Integer.toHexString((int)blue);
-                if(r.length()==1)
-                    r = "0"+r;
-                if(g.length()==1)
-                    g="0"+g;
-                if(b.length()==1)
-                    b="0"+b;
-                String hex="0x" + r + g + b;
-                txt += "-<font size=16 color=" + hex + ">" + l.get_nombre() + "</font><br>";
-            }
-            Util.setText(txt);
+            Util.loadSI();
         }catch (Exception ex)
         {
             Log.println(Log.ERROR,"",ex.getMessage()) ;
             return;
         }
     }
+
 
     @Override
     public void onResume() {

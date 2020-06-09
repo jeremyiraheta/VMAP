@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.utec.vmap.MainActivity.parseJson;
@@ -113,6 +114,37 @@ public class Util {
             Log.e("DeletePintere:", "No fue posible eliminar " + key);
         }
     }
+    private static boolean reload=true;
+    public static void setReload(boolean r)
+    {
+        reload = r;
+    }
+    public static boolean shouldReload()
+    {
+        return reload;
+    }
+    public static void loadSI()
+    {
+        Util.setTitle("Lugares de Interes");
+        String txt="<br>";
+        Util.setText("");
+        Random rnd = new Random();
+        for (Util.Locacion l:
+                Util.getLocacions(true)) {
+            float red=rnd.nextInt(255),green=rnd.nextInt(255),blue=rnd.nextInt(255);
+            Util.getLocacion(l.getID()).setColor(new float[]{red/255,green/255,blue/255});
+            String r=Integer.toHexString((int)red),g=Integer.toHexString((int)green),b=Integer.toHexString((int)blue);
+            if(r.length()==1)
+                r = "0"+r;
+            if(g.length()==1)
+                g="0"+g;
+            if(b.length()==1)
+                b="0"+b;
+            String hex="0x" + r + g + b;
+            txt += "-<font size=16 color=" + hex + ">" + l.get_nombre() + "</font><br>";
+        }
+        Util.setText(txt);
+    }
     public static void addPinteres(String name)
     {
         for (Locacion l:
@@ -149,6 +181,7 @@ public class Util {
             @Override
             public void OnSuccess(String obj) {
                 Util.Save(act,"materias",obj);
+                if(Util.Load(act, "carnet").equals("")) return;
                 api.get(url + "/" + Util.Load(act, "carnet"), new ApiCallback() {
                     @Override
                     public void OnSuccess(String obj) {
@@ -244,6 +277,7 @@ public class Util {
     public static void clearPInteres()
     {
         pinteres.clear();
+        aulas.clear();
     }
     public static void addAula(String nombre)
     {
@@ -298,6 +332,7 @@ public class Util {
     {
         txt=t;
     }
+
     public static class Locacion
     {
         private int id;

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.utec.vmap.Util;
+
 import org.andresoviedo.android_3d_model_engine.animation.Animator;
 import org.andresoviedo.android_3d_model_engine.collision.CollisionDetection;
 import org.andresoviedo.android_3d_model_engine.model.Camera;
@@ -251,11 +253,16 @@ public class SLoader implements LoaderTask.Callback {
     public void clearSubObjects()
     {
         if(objects==null)return;
-        for (Object3DData o:
-             objects) {
-            if(o.getId() == null ) continue;
-            if(!o.getId().equals("main"))
-                objects.remove(o);
+        try{
+            for (Object3DData o:
+                    objects) {
+                if(o.getId() == null ) continue;
+                if(!o.getId().equals("main"))
+                    objects.remove(o);
+            }
+        }catch (Exception ex)
+        {
+            Log.e("Deleting objects: ", ex.getMessage());
         }
     }
     private void animateCamera(){
@@ -290,6 +297,7 @@ public class SLoader implements LoaderTask.Callback {
         final String elapsed = (SystemClock.uptimeMillis() - startTime) / 1000 + " secs";
         makeToastText("Construccion Completa (" + elapsed + ")", Toast.LENGTH_LONG);
         ContentUtils.setThreadActivity(null);
+        Util.setReload(true);
         if(st!=null)
             st.start();
     }
