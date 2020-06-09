@@ -1,6 +1,7 @@
 drop database if exists vmap;
 create database vmap;
 use vmap;
+drop user if exists vmap;
 create user vmap identified by '12345';
 grant all on vmap.* to vmap;
 /*==============================================================*/

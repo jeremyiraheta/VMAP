@@ -134,7 +134,7 @@ app.get('/locaciones/:id', function (req, res) {
 );
 })
 app.get('/pinteres', function (req, res) {
-   var query = connection.query('SELECT * FROM PINTERES', function(error, result){
+   var query = connection.query('SELECT CARNET,NOMBRE,FECHA FROM PINTERES inner join LOCACIONES l l.ID_LOCACION=p.ID_LOCACION', function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{
@@ -159,7 +159,7 @@ app.get('/pinteres', function (req, res) {
 })
 app.get('/pinteres/:carnet', function (req, res) {
    var carnet = " where CARNET = " + req.params.carnet;
-   var query = connection.query('SELECT * FROM PINTERES' + carnet, function(error, result){
+   var query = connection.query('SELECT CARNET,NOMBRE,FECHA FROM PINTERES p' + carnet + " inner join LOCACIONES l l.ID_LOCACION=p.ID_LOCACION", function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{

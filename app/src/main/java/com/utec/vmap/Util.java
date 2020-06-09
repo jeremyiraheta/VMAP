@@ -15,8 +15,8 @@ import org.andresoviedo.android_3d_model_engine.services.Object3DBuilder;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Random;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.utec.vmap.MainActivity.parseJson;
@@ -25,7 +25,7 @@ public class Util {
     private static String txt;
     private static String tlt;
     private static HashMap<Integer, Locacion> locacions;
-    private static LinkedList<Integer> pinteres;
+    private static HashSet<Integer> pinteres;
     private static LinkedList<String> aulas;
     public static void Save(Activity activity, String name, String value)
     {
@@ -41,10 +41,12 @@ public class Util {
     }
     private static RestfulApi ap;
     private static String ul;
-    public static void SyncLocations(RestfulApi api, String url)
+    private static Activity act;
+    public static void SyncLocations(RestfulApi api, String url, Activity activity)
     {
         ap=api;
         ul=url;
+        act=activity;
         api.get(url, new ApiCallback() {
             @Override
             public void OnSuccess(String obj) {
@@ -77,10 +79,32 @@ public class Util {
         for (Locacion l:
              getLocacions(false)) {
             if(l.get_nombre().toLowerCase().equals(name.toLowerCase()))
+            {
                 pinteres.add(l.getID());
+                if(ap!=null)
+                {
+                    HashMap<String,String> s=new HashMap<>();
+                    s.put("carnet", Load(act,"carnet"));
+                    s.put("id",String.valueOf(l.getID()));
+                    ap.post(MainActivity.API_SEDPINTERES, s, new ApiCallback() {
+                        @Override
+                        public void OnSuccess(String obj) {
+                            if(obj.indexOf("5")>-1)
+                                Log.i("SendInteres: ", "Enviado");
+                            else
+                                Log.i("SendInteres: ", "Algo fallo");
+                        }
+
+                        @Override
+                        public void OnError(String error) {
+                            Log.i("SendInteres: ", "Algo fallo");
+                        }
+                    });
+                }
+            }
         }
     }
-    public static void SyncPInteres(RestfulApi api, String url, Activity act)
+    public static void SyncPInteres(RestfulApi api, String url)
     {
         api.get("http://consultas.utec.edu.sv/servicios_movil/ServiciosAlumnos.asmx/Notas?carnet=" + Util.Load(act, "carnet"), new ApiCallback() {
             @Override
@@ -161,8 +185,8 @@ public class Util {
     private static boolean snc = false;
     public static Locacion[] getLocacions(boolean pi)
     {
-        if(snc)SyncLocations(ap,ul);
-        if(pinteres==null)pinteres=new LinkedList<>();
+        if(snc)SyncLocations(ap,ul,act);
+        if(pinteres==null)pinteres=new HashSet<>();
         if(pi)
         {
             LinkedList<Locacion> tmp = new LinkedList<>();
@@ -177,6 +201,10 @@ public class Util {
     public  static Locacion getLocacion(int id)
     {
         return locacions.get(id);
+    }
+    public static void clearPInteres()
+    {
+        pinteres.clear();
     }
     public static void addAula(String nombre)
     {

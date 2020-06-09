@@ -1,33 +1,27 @@
 package com.utec.vmap.ui.home;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextPaint;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+
 
 import com.utec.vmap.MainActivity;
-import com.utec.vmap.R;
+
 import com.utec.vmap.Util;
 import com.utec.vmap.api.RestfulApi;
 import com.utec.vmap.ui.Edificios.MSV;
 import com.utec.vmap.ui.Edificios.SLoader;
 
-import org.andresoviedo.android_3d_model_engine.model.Object3D;
-import org.andresoviedo.android_3d_model_engine.model.Object3DData;
 import org.andresoviedo.android_3d_model_engine.services.Object3DBuilder;
 
 import java.util.Random;
@@ -45,9 +39,10 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         handler = new Handler(this.getActivity().getMainLooper());
         scene = new SLoader(this.getActivity(), Uri.parse("assets://assets/models/Mapa.obj"));
-        Util.SyncPInteres(new RestfulApi(getActivity()), MainActivity.API_PINTERES,getActivity());
+        Util.SyncPInteres(new RestfulApi(getActivity()), MainActivity.API_PINTERES);
         if(Util.getSyncing())scene.addObject(Object3DBuilder.buildAxis());
         scene.setCameraAnimation(false);
+        Util.hideKeyboard(getActivity());
         if(Util.getSyncing())
         {
             scene.init(new Thread(new Runnable() {
@@ -68,7 +63,15 @@ public class HomeFragment extends Fragment {
             scene.init(new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Util.LoadLocations(scene,true);
+                    while(scene != null)
+                    {
+                        try{
+                            Util.LoadLocations(scene,true);
+                            Thread.sleep(10000);
+                        }catch (Exception ex)
+                        {
+                        }
+                    }
                 }
             }));
         scene.getCamera().xPos = 0.9263429f;

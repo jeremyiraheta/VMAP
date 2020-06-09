@@ -1,9 +1,11 @@
 package com.utec.vmap;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.MatrixCursor;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +26,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.utec.vmap.api.ApiCallback;
 import com.utec.vmap.api.RestfulApi;
+import com.utec.vmap.ui.SearchAdapter;
 import com.utec.vmap.ui.home.Informacion;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -34,6 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.andresoviedo.util.android.AndroidURLStreamHandlerFactory;
@@ -41,6 +45,8 @@ import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String API_SENDESTUDIANTE = HOST +"/sendestudiante";
     public static final String API_LOCACIONES = HOST +"/locaciones";
     public static final String API_PINTERES = HOST + "/pinteres";
+    public static final String API_SEDPINTERES = HOST + "/sendpinteres";
 
     static {
         System.setProperty("java.protocol.handler.pkgs", "org.andresoviedo.util.android");
@@ -77,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Util.SyncLocations(api,API_LOCACIONES);
+                Util.SyncLocations(api,API_LOCACIONES,act);
             }
         }).start();
         if(!Util.Load(this,"carnet").equals("")) {
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             new Thread((new Runnable() {
                 @Override
                 public void run() {
-                    Util.SyncPInteres(api, API_PINTERES, act);
+                    Util.SyncPInteres(api, API_PINTERES);
                 }
             })).start();
         }else{
@@ -96,13 +103,68 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
-
+    private Menu menu;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        this.menu = menu;
+        SearchManager manager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+        SearchView search = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                loadData(newText);
+                return true;
+            }
+
+        });
         return true;
     }
+    private void loadData(String query)
+    {
+        Util.Locacion[] l = Util.getLocacions(false);
+        List<String> items = new LinkedList<>();
+        String[] columns = new String[] { "_id", "text" };
+        Object[] temp = new Object[] { 0, "default" };
+
+        MatrixCursor cursor = new MatrixCursor(columns);
+        if(!query.equals(""))
+        {
+            for(int i = 0; i < l.length; i++) {
+
+                temp[0] = l[i].getID();
+                temp[1] = l[i].get_nombre();
+                if(l[i].get_nombre().toLowerCase().indexOf(query.toLowerCase()) > -1) {
+                    items.add(l[i].get_nombre());
+                    cursor.addRow(temp);
+                }
+            }
+        }else{
+            for(int i = 0; i < l.length; i++) {
+
+                temp[0] = l[i].getID();
+                temp[1] = l[i].get_nombre();
+                items.add(l[i].get_nombre());
+                cursor.addRow(temp);
+            }
+        }
+
+
+        // SearchView
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        final SearchView search = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
+        search.setSuggestionsAdapter(new SearchAdapter(this, cursor, items));
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -188,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         Util.Clear(act);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.nav_login);
+        Util.clearPInteres();
         act.recreate();
 
     }
