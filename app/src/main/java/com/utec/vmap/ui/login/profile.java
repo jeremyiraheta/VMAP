@@ -66,6 +66,10 @@ public class profile extends Fragment {
                 table += "<br><i>Docente</i>: &#9;" + current.getString("nombre_docente");
                 table += "<br><i>Correo</i>: &#9;" + current.getString("correo_docente");
                 table += "<br><i>Aula</i>: &#9;" + current.getString("Aula");
+                String aula = current.getString("Aula").trim();
+                char[] ca =  aula.toCharArray();
+                ca[ca.length-1] = 'X';
+                Util.addAula(String.valueOf(ca));
                 table += "<br><i>Dias</i>: &#9;" + current.getString("Dias");
                 table += "<br><i>Horas</i>: &#9;" + current.getString("Horas");
                 table += "<br><i>Seccion</i>: &#9;" + current.getString("Seccion");

@@ -176,7 +176,6 @@ class DrawerImpl implements Object3D {
             GLES20.glDisableVertexAttribArray(in_jointIndicesHandle);
         }
     }
-
     private float[] getMMatrix(Object3DData obj) {
         return obj.getModelMatrix();
     }

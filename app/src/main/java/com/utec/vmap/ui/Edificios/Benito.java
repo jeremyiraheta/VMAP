@@ -37,7 +37,8 @@ public class Benito extends Fragment {
         }
         Util.setTitle("Benito Juarez");
         Util.setText("La universidad ha denominado Benito Juarez al edificio donde se erige el busto del que fuera brillante jurista y presidente de la Republica de Mexico<BR>" +
-                "<b>Dependencias:</b> -Laboratorio 3, de Informatica<br>" +
+                "<b>Dependencias:</b> <br>" +
+                "-Laboratorio 3, de Informatica<br>" +
                 "-Biblioteca Central<br>" +
                 "-Plaza Benito Juarez<br>" +
                 "-Laboratorio 10, de Academia Microsoft<br>" +

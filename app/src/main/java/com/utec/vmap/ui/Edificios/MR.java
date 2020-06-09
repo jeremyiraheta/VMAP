@@ -1,8 +1,12 @@
 package com.utec.vmap.ui.Edificios;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.text.TextPaint;
 import android.util.Log;
 
 import org.andresoviedo.android_3d_model_engine.animation.Animator;
@@ -275,6 +279,7 @@ public class MR implements GLSurfaceView.Renderer {
 
 
         SLoader scene = main.getScene();
+
 
         // draw light
         if (scene.isDrawLighting()) {

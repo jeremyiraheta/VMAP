@@ -77,7 +77,7 @@ app.get('/locaciones', function (req, res) {
              var resp={};
              for(var i=0; i< resultado.length; i++){
              resp[i] = {
-              ID: resultado[i].ID_LOCATION,
+              ID: resultado[i].ID_LOCACION,
               NOMBRE: resultado[i].NOMBRE,              
               X: resultado[i].X,
               Y: resultado[i].Y,
@@ -135,6 +135,31 @@ app.get('/locaciones/:id', function (req, res) {
 })
 app.get('/pinteres', function (req, res) {
    var query = connection.query('SELECT * FROM PINTERES', function(error, result){
+      if(error){
+         res.end("500: Fracaso");
+      }else{
+         var resultado = result;
+         if(resultado.length > 0){
+             var resp={};
+             for(var i=0; i< resultado.length; i++){
+             resp[i] = {
+              CARNET: resultado[i].CARNET,
+              ID_LOCACION: resultado[i].ID_LOCACION,
+              FECHA: resultado[i].FECHA
+            }            
+            }
+            resp['size'] = i;
+            res.send(JSON.stringify(resp));
+         }else{
+            res.send('No tiene datos');
+         }
+      }
+   }
+);
+})
+app.get('/pinteres/:carnet', function (req, res) {
+   var carnet = " where CARNET = " + req.params.carnet;
+   var query = connection.query('SELECT * FROM PINTERES' + carnet, function(error, result){
       if(error){
          res.end("500: Fracaso");
       }else{

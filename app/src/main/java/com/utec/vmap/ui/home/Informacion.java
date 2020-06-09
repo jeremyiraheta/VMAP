@@ -27,7 +27,7 @@ public class Informacion extends AppCompatActivity {
         String title = Util.getTitle();
         String texto = "<p><h1>" + title + "</h1><p><br>" + Util.getText();
         TextView text = findViewById(R.id.info);
-        text.setText(Html.fromHtml(texto));
+        text.setText(Html.fromHtml(texto),TextView.BufferType.SPANNABLE);
         setTitle(title);
     }
 }

@@ -1,8 +1,13 @@
 package com.utec.vmap.ui.Edificios;
 
 import android.app.Activity;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.opengl.GLSurfaceView;
+import android.text.TextPaint;
 import android.view.MotionEvent;
+import android.widget.TextView;
 
 
 import java.io.IOException;
@@ -35,6 +40,7 @@ public class MSV extends GLSurfaceView {
     public boolean onTouchEvent(MotionEvent event) {
         return touchHandler.onTouchEvent(event);
     }
+
 
     public SLoader getScene() {
         return scene;

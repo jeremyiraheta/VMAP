@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private RestfulApi api;
     private Activity act;
-    private final String HOST = "http://13.82.193.57:8081";
-    private final String API_SENDESTUDIANTE = HOST +"/sendestudiante";
-    private final String API_LOCACIONES = HOST +"/locaciones";
+    public static final String HOST = "http://13.82.193.57:8081";
+    public static final String API_SENDESTUDIANTE = HOST +"/sendestudiante";
+    public static final String API_LOCACIONES = HOST +"/locaciones";
+    public static final String API_PINTERES = HOST + "/pinteres";
 
     static {
         System.setProperty("java.protocol.handler.pkgs", "org.andresoviedo.util.android");
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        api = new RestfulApi(getApplicationContext());
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,18 +73,28 @@ public class MainActivity extends AppCompatActivity {
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        act=this;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Util.SyncLocations(api,API_LOCACIONES);
+            }
+        }).start();
         if(!Util.Load(this,"carnet").equals("")) {
             navController.getGraph().setStartDestination(R.id.nav_profile);
             navigationView.getMenu().findItem(R.id.nav_login).setTitle("Perfil");
+            new Thread((new Runnable() {
+                @Override
+                public void run() {
+                    Util.SyncPInteres(api, API_PINTERES, act);
+                }
+            })).start();
         }else{
             Util.setTitle("Informacion");
             Util.setText("Si sincroniza sus datos apareceran lugares de interes de manera automatica");
         }
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        api = new RestfulApi(getApplicationContext());
-        Util.SyncLocations(api,API_LOCACIONES);
-        act=this;
     }
 
     @Override
@@ -179,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         act.recreate();
 
     }
-    public JSONObject parseJson(String req)
+    public static JSONObject parseJson(String req)
     {
         try{
             return new JSONObject(req.substring(req.indexOf("{"),req.lastIndexOf("}")+1));
